@@ -1,0 +1,38 @@
+INSERT INTO clients(id, name) VALUES (1, 'Tony Stark'),
+    (2, 'Tor'),
+    (3, 'Bruce Banner'),
+    (4, 'Steve Rogers'),
+    (5, 'Natasha Romanoff'),
+    (6, 'Dr. Stephen Strange'),
+    (7, 'Peter Parker'),
+    (8, 'Vision'),
+    (9, 'Sam Wilson'),
+    (10, 'Bucky Barnes'),
+    (11, 'Loki'),
+    (12, 'Mantis'),
+    (13, 'Drax the Destroyer'),
+    (14, 'Groot'),
+    (15, 'Peter Quill');
+
+INSERT INTO planets(id, name) VALUES ('EARTH', 'The Earth'),
+    ('MERCURY', 'Mercury'),
+    ('MARS', 'Mars'),
+    ('VENUS', 'Venus'),
+    ('MOON', 'Moon'),
+    ('JUPITER', 'Jupiter'),
+    ('SATURN', 'Saturn'),
+    ('URANUS', 'Uranus'),
+    ('NEPTUNE', 'Neptune');
+
+INSERT INTO tickets(id, created_at, client_id, from_planet_id, to_planet_id) VALUES
+    (1, '2023-01-05T12:30:00Z', 1, 'EARTH', 'MERCURY'),
+    (2, '2023-02-15T13:22:00Z', 2, 'MOON', 'EARTH'),
+    (3, '2023-03-25T15:10:00Z', 3, 'NEPTUNE', 'EARTH'),
+    (4, '2023-04-03T11:31:00Z', 4, 'VENUS', 'MOON'),
+    (5, '2023-05-23T16:50:00Z', 5, 'URANUS', 'MARS'),
+    (6, '2023-06-14T15:20:00Z', 6, 'JUPITER', 'SATURN'),
+    (7, '2023-07-02T12:33:00Z', 7, 'MARS', 'EARTH'),
+    (8, '2023-08-12T07:11:00Z', 8, 'EARTH', 'MOON'),
+    (9, '2023-09-15T18:23:00Z', 9, 'URANUS', 'MARS'),
+    (10, '2023-10-11T13:34:00Z', 10, 'SATURN', 'NEPTUNE'),
+    (11, '2023-11-22T05:54:00Z', 11, 'VENUS', 'EARTH');

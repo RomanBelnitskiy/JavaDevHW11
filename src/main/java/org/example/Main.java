@@ -6,10 +6,13 @@ import org.example.model.Ticket;
 import org.example.service.ClientService;
 import org.example.service.PlanetService;
 import org.example.service.TicketService;
+import org.example.util.FlywayUtil;
 import org.example.util.HibernateUtil;
 
 public class Main {
     public static void main(String[] args) {
+        FlywayUtil.migrate();
+
         ticketServiceTest();
 
         HibernateUtil.close();

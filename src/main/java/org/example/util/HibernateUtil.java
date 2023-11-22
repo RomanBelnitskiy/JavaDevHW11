@@ -28,8 +28,6 @@ public class HibernateUtil {
         cfg.addAnnotatedClass(Planet.class);
         cfg.addAnnotatedClass(Ticket.class);
 
-        flywayMigrate(cfg.getProperties());
-
         sessionFactory = cfg.buildSessionFactory();
     }
 
@@ -49,15 +47,5 @@ public class HibernateUtil {
         INSTANCE.sessionFactory.close();
     }
 
-    private void flywayMigrate(Properties properties) {
-        String url = properties.getProperty("hibernate.connection.url");
-        String username = properties.getProperty("hibernate.connection.username");
-        String password = properties.getProperty("hibernate.connection.password");
 
-        Flyway flyway = Flyway.configure()
-                .dataSource(url, username, password)
-                .baselineOnMigrate(true)
-                .load();
-        flyway.migrate();
-    }
 }

@@ -1,11 +1,9 @@
 package org.example.service;
 
+import org.example.dao.PlanetDao;
+import org.example.dao.UpdatableDao;
 import org.example.model.Planet;
-import org.example.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,24 +12,19 @@ import static java.util.Objects.requireNonNull;
 public class PlanetService {
     private final Pattern pattern = Pattern.compile("^[A-Z0-9]+$");
 
-    public Planet getById(String id) {
-        try (Session session = HibernateUtil.openSession()) {
-            return session.get(Planet.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private UpdatableDao<Planet, String> dao;
 
-        return null;
+    public PlanetService() {
+        dao = new PlanetDao();
+    }
+
+
+    public Planet findById(String id) {
+        return dao.findById(id);
     }
 
     public List<Planet> findAll() {
-        try (Session session = HibernateUtil.openSession()) {
-            return session.createQuery("FROM Planet", Planet.class).list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
+        return dao.findAll();
     }
 
     public Planet create(String id, String name) {
@@ -40,75 +33,26 @@ public class PlanetService {
 
         Planet planet = new Planet(id, name);
 
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.openSession()) {
-            transaction = session.beginTransaction();
-
-            session.persist(planet);
-
-            transaction.commit();
-        } catch (Exception e) {
-            transactionRollback(transaction);
-            e.printStackTrace();
-        }
-
-        return planet;
+        return dao.save(planet);
     }
 
     public void update(Planet planet) {
         validateId(planet.getId());
         validateName(planet.getName());
 
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.openSession()) {
-            transaction = session.beginTransaction();
-
-            session.merge(planet);
-
-            transaction.commit();
-        } catch (Exception e) {
-            transactionRollback(transaction);
-            e.printStackTrace();
-        }
+        dao.update(planet);
     }
 
     public void deleteById(String id) {
         validateId(id);
 
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.openSession()) {
-            transaction = session.beginTransaction();
-
-            Planet planet = session.getReference(Planet.class, id);
-            session.remove(planet);
-
-            transaction.commit();
-        } catch (Exception e) {
-            transactionRollback(transaction);
-            e.printStackTrace();
-        }
+        dao.deleteById(id);
     }
 
     public void delete(Planet planet) {
         requireNonNull(planet);
 
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.openSession()) {
-            transaction = session.beginTransaction();
-
-            session.remove(planet);
-
-            transaction.commit();
-        } catch (Exception e) {
-            transactionRollback(transaction);
-            e.printStackTrace();
-        }
-    }
-
-    private static void transactionRollback(Transaction transaction) {
-        if (transaction != null) {
-            transaction.rollback();
-        }
+        dao.delete(planet);
     }
 
     private void validateName(String name) {

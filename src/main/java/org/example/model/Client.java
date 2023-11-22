@@ -28,7 +28,8 @@ public class Client {
 
     @OneToMany(
             mappedBy = "client",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE},
+            cascade = {CascadeType.DETACH, CascadeType.MERGE},
+            orphanRemoval = true,
             fetch = FetchType.LAZY)
     private Set<Ticket> tickets = new HashSet<>();
 
